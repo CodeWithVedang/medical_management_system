@@ -1,0 +1,76 @@
+Processing sale at 2025-05-10 17:37:16
+Inputs: Array
+(
+    [medicines] => Array
+        (
+            [0] => Array
+                (
+                    [quantity] => 2
+                    [medicine_id] => 1
+                    [subtotal] => 70
+                )
+
+        )
+
+    [bill_discount] => 70
+    [total_price] => 21.00
+    [customer_name] => Test User
+    [customer_phone] => 12345678971
+    [doctor_name] => Dr.John
+)
+
+Sale inserted with ID 1
+Sale committed successfully
+Processing sale at 2025-05-10 18:15:07
+Inputs: Array
+(
+    [medicines] => Array
+        (
+            [0] => Array
+                (
+                    [quantity] => 2
+                    [medicine_id] => 1
+                    [subtotal] => 70
+                )
+
+            [1] => Array
+                (
+                    [quantity] => 4
+                    [medicine_id] => 3
+                    [subtotal] => 440
+                )
+
+        )
+
+    [bill_discount] => 20
+    [total_price] => 408.00
+    [customer_name] => John Doe
+    [customer_phone] => 1234567810
+    [doctor_name] => Dr.John
+)
+
+Sale inserted with ID 2
+Sale committed successfully
+Processing sale at 2025-05-10 18:44:51
+Inputs: Array
+(
+    [medicines] => Array
+        (
+            [0] => Array
+                (
+                    [quantity] => 2
+                    [medicine_id] => 2
+                    [subtotal] => 500
+                )
+
+        )
+
+    [bill_discount] => 20
+    [total_price] => 400.00
+    [customer_name] => Test User
+    [customer_phone] => 12345678971
+    [doctor_name] => Dr.John
+)
+
+Sale inserted with ID 3
+Sale committed successfully
