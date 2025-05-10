@@ -14,7 +14,8 @@ A web-based system to manage medicines, provide statistical insights, handle sal
 3. Create a database named `medical_system` in phpMyAdmin.
 4. Run the following SQL to create the required tables:
 
-##SQL QUERIES
+## SQL QUERIES
+
    CREATE TABLE medicines (
        id INT AUTO_INCREMENT PRIMARY KEY,
        name VARCHAR(100) NOT NULL,
