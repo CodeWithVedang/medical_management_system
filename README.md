@@ -34,10 +34,20 @@ medical_management_system/
 │   └── style.css              # Stylesheet for the application
 ├── js/
 │   └── script.js             # General JavaScript (e.g., for navbar menu toggle)
+├── database/
+│   └── medical_system.sql 
 ├── php/
-│   ├── config.php            # Database configuration
-│   ├── get_bill.php          # Fetches bill content for display/printing
-│   └── process_sale.php      # Processes the sale and saves to database
+│   ├── config.php            
+│   ├── get_bill.php         
+│   └── process_sale.php      
+│   └── add_medicine.php      
+│   └── delete_medicine.php      
+│   └── edit_medicine.php      
+│   └── process_symptom.php  
+│   └── view_medicines_dashboard.php      
+│   └── view_medicine.php      
+├── python/
+│   └── symptom_checker.python
 ├── database/
 │   └── medical_management_system.sql  # SQL file to import database schema and sample data
 ├── home.php                  # Home page
