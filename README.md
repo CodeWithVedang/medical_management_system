@@ -190,6 +190,8 @@ Follow these steps to set up and run the Medical Management System on your local
   - MySQL
 - **Server**:
   - Apache (via XAMPP/WAMP/MAMP)
+ - **AIML**:
+  - python  
 
 ---
 
