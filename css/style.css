@@ -92,6 +92,217 @@ h1, h2, h3, h4 {
     cursor: pointer;
     font-size: 1em;
 }
+/* Existing styles remain unchanged, add the following at the end */
+
+/* Symptom Checker Form Styles */
+.symptom-checker-form {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.symptom-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.symptom-input-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.symptom-input-group select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.symptom-input-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.add-symptom-btn {
+    background-color: #28a745;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.add-symptom-btn:hover {
+    background-color: #218838;
+}
+
+#selected_symptoms {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.clear-btn {
+    background-color: #dc3545;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-size: 0.9rem;
+}
+
+.clear-btn:hover {
+    background-color: #c82333;
+}
+
+.submit-btn {
+    background-color: #007bff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Result Section Styles */
+.result-section {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.diagnosis-card,
+.suggestions-card,
+.feedback-card {
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.diagnosis-card h3,
+.suggestions-card h3,
+.feedback-card h3 {
+    color: #007bff;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.diagnosis-card p {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.medicine-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.medicine-table th,
+.medicine-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.medicine-table th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.medicine-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.medicine-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.feedback-card select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Status Messages */
+.status-message {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.status-message.success {
+    background-color: #e6f4ea;
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.status-message.error {
+    background-color: #f8d7da;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .symptom-input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .add-symptom-btn {
+        width: 100%;
+        padding: 12px;
+    }
+
+    #selected_symptoms {
+        font-size: 0.9rem;
+    }
+
+    .clear-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .diagnosis-card,
+    .suggestions-card,
+    .feedback-card {
+        padding: 15px;
+    }
+
+    .medicine-table th,
+    .medicine-table td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
 
 @media (max-width: 768px) {
     .navbar {

@@ -4,6 +4,10 @@ $status = isset($_GET['status']) ? $_GET['status'] : '';
 $sale_id = isset($_SESSION['sale_id']) ? $_SESSION['sale_id'] : null;
 $bill = '';
 
+// Log session and status for debugging
+error_log("Status: " . ($status ?? 'Not set'));
+error_log("Session sale_id: " . ($sale_id ?? 'Not set'));
+
 if ($sale_id) {
     // Fetch bill content dynamically from get_bill.php
     $ch = curl_init();
@@ -12,8 +16,12 @@ if ($sale_id) {
     $bill = curl_exec($ch);
     if (curl_errno($ch)) {
         $bill = '<p>Error loading bill. Please try again.</p>';
+        error_log("cURL error: " . curl_error($ch));
     }
     curl_close($ch);
+
+    // Log bill content for debugging
+    error_log("Bill content length: " . strlen($bill));
 }
 ?>
 
@@ -24,6 +32,47 @@ if ($sale_id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Management System - Customer Selling</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .modal-content h3 {
+            margin-top: 0;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .modal-content .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        .modal-content button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -39,6 +88,7 @@ if ($sale_id) {
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="customer_selling.php" class="active">Customer Selling</a></li>
                 <li><a href="sales_history.php">Sales History</a></li>
+                <li><a href="symptom_checker.php">Symptom Checker</a></li>
             </ul>
         </nav>
 
@@ -151,6 +201,11 @@ if ($sale_id) {
         let selectedPrice = 0;
         let selectedStock = 0;
         let selectedName = '';
+        let saleId = <?php echo json_encode($sale_id); ?>;
+
+        // Log initial variables for debugging
+        console.log('Initial saleId:', saleId);
+        console.log('Initial status:', '<?php echo $status; ?>');
 
         // Update subtotal when medicine or quantity changes
         function updateSubtotal() {
@@ -182,7 +237,6 @@ if ($sale_id) {
                 return;
             }
 
-            // Check if medicine already in cart
             const existingItem = cart.find(item => item.medicineId === medicineId);
             if (existingItem) {
                 alert('This medicine is already in the cart. Update the quantity in the table.');
@@ -241,7 +295,6 @@ if ($sale_id) {
 
             cart[index].quantity = newQuantity;
             cart[index].subtotal = item.price * newQuantity;
-
             updateCartTable();
         }
 
@@ -286,19 +339,16 @@ if ($sale_id) {
                 return;
             }
 
-            // Add personal details to cart form
             const form = document.getElementById('cartForm');
             const inputs = `
                 <input type="hidden" name="customer_name" value="${customerName}">
                 <input type="hidden" name="customer_phone" value="${customerPhone}">
                 <input type="hidden" name="doctor_name" value="${doctorName}">
             `;
-            // Clear any previous hidden inputs to avoid duplicates
             const existingInputs = form.querySelectorAll('input[name="customer_name"], input[name="customer_phone"], input[name="doctor_name"]');
             existingInputs.forEach(input => input.remove());
             form.insertAdjacentHTML('beforeend', inputs);
 
-            // Submit the form
             closePersonalDetailsModal();
             form.submit();
         }
@@ -327,7 +377,7 @@ if ($sale_id) {
                     printWindow.document.close();
                     setTimeout(() => {
                         printWindow.print();
-                    }, 500); // Delay to ensure styles load
+                    }, 500);
                 })
                 .catch(error => {
                     console.error('Error fetching bill:', error);
@@ -345,9 +395,18 @@ if ($sale_id) {
             document.getElementById('billPreview').style.display = 'none';
         }
 
+        window.onclick = function(event) {
+            const personalModal = document.getElementById('personalDetailsModal');
+            if (event.target === personalModal) {
+                closePersonalDetailsModal();
+            }
+        };
+
         // Event listeners
         document.getElementById('medicine_id').addEventListener('change', updateSubtotal);
         document.getElementById('quantity').addEventListener('input', updateSubtotal);
+
+        console.log('customer_selling.js script loaded');
     </script>
     <script src="js/script.js"></script>
 </body>

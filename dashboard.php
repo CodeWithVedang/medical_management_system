@@ -21,6 +21,8 @@
                 <li><a href="dashboard.php" class="active">Dashboard</a></li>
                 <li><a href="customer_selling.php">Customer Selling</a></li>
                 <li><a href="sales_history.php">Sales History</a></li>
+                <li><a href="symptom_checker.php">Symptom Checker</a></li>
+
             </ul>
         </nav>
 

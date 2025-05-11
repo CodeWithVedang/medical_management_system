@@ -1,0 +1,33 @@
+2025-05-11 11:30:49,762 - DEBUG - Script started with arguments: ['symptom_checker.py', 'predict', 'headache,cough']
+2025-05-11 11:30:49,762 - DEBUG - Predicting disease for symptoms: headache,cough
+2025-05-11 11:30:49,763 - DEBUG - Symptom 'headache' mapped to diseases: ['Headache', 'Fever']
+2025-05-11 11:30:49,763 - DEBUG - Symptom 'cough' mapped to diseases: ['Common Cold']
+2025-05-11 11:30:49,763 - DEBUG - Predicted diseases: ['Headache', 'Common Cold', 'Fever']
+2025-05-11 11:30:49,763 - DEBUG - Fetching medicines for diseases: ['Headache', 'Common Cold', 'Fever']
+2025-05-11 11:30:49,832 - DEBUG - Starting authorization phase
+2025-05-11 11:30:49,832 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 11:30:49,832 - INFO - package: mysql.connector.plugins
+2025-05-11 11:30:49,833 - INFO - plugin_name: mysql_native_password
+2025-05-11 11:30:49,833 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 11:30:49,834 - DEBUG - mysql_native_password completed succesfully
+2025-05-11 11:30:49,835 - DEBUG - Executing query: 
+            SELECT DISTINCT m.id, m.name, m.price, m.stock
+            FROM medicines m
+            JOIN disease_medicine_mapping dmm ON m.id = dmm.medicine_id
+            WHERE dmm.disease IN (%s,%s,%s)
+         with params: ['Headache', 'Common Cold', 'Fever']
+2025-05-11 11:30:49,838 - DEBUG - Medicines fetched: [{'id': 27, 'name': 'Cetirizine', 'price': Decimal('8.00'), 'stock': 100}, {'id': 28, 'name': 'Loratadine', 'price': Decimal('12.00'), 'stock': 100}, {'id': 29, 'name': 'Cough Syrup (Dextromethorphan)', 'price': Decimal('50.00'), 'stock': 100}, {'id': 34, 'name': 'Pseudoephedrine', 'price': Decimal('15.00'), 'stock': 100}, {'id': 25, 'name': 'Paracetamol', 'price': Decimal('10.00'), 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': Decimal('10.00'), 'stock': 100}, {'id': 26, 'name': 'Ibuprofen', 'price': Decimal('15.00'), 'stock': 100}]
+2025-05-11 11:30:49,838 - DEBUG - Returning result: {'diseases': ['Headache', 'Common Cold', 'Fever'], 'medicines': [{'id': 27, 'name': 'Cetirizine', 'price': Decimal('8.00'), 'stock': 100}, {'id': 28, 'name': 'Loratadine', 'price': Decimal('12.00'), 'stock': 100}, {'id': 29, 'name': 'Cough Syrup (Dextromethorphan)', 'price': Decimal('50.00'), 'stock': 100}, {'id': 34, 'name': 'Pseudoephedrine', 'price': Decimal('15.00'), 'stock': 100}, {'id': 25, 'name': 'Paracetamol', 'price': Decimal('10.00'), 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': Decimal('10.00'), 'stock': 100}, {'id': 26, 'name': 'Ibuprofen', 'price': Decimal('15.00'), 'stock': 100}]}
+2025-05-11 11:33:05,040 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.77.52:5000
+2025-05-11 11:33:05,040 - INFO - [33mPress CTRL+C to quit[0m
+2025-05-11 11:33:29,858 - INFO - 127.0.0.1 - - [11/May/2025 11:33:29] "[33mGET / HTTP/1.1[0m" 404 -
+2025-05-11 11:33:29,939 - INFO - 127.0.0.1 - - [11/May/2025 11:33:29] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-11 11:33:33,041 - INFO - 127.0.0.1 - - [11/May/2025 11:33:33] "[33mGET / HTTP/1.1[0m" 404 -
+2025-05-11 11:33:51,491 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.77.52:5000
+2025-05-11 11:33:51,491 - INFO - [33mPress CTRL+C to quit[0m

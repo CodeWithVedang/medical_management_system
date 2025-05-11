@@ -1,0 +1,123 @@
+2025-05-11 11:25:57,120 - DEBUG - Script started with arguments: ['python/symptom_checker.py', 'predict', 'sneezing']
+2025-05-11 11:25:57,120 - DEBUG - Predicting disease for symptoms: sneezing
+2025-05-11 11:25:57,120 - DEBUG - Symptom 'sneezing' mapped to diseases: ['Common Cold']
+2025-05-11 11:25:57,121 - DEBUG - Predicted diseases: ['Common Cold']
+2025-05-11 11:25:57,121 - DEBUG - Fetching medicines for diseases: ['Common Cold']
+2025-05-11 11:25:57,178 - DEBUG - Starting authorization phase
+2025-05-11 11:25:57,178 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 11:25:57,179 - INFO - package: mysql.connector.plugins
+2025-05-11 11:25:57,179 - INFO - plugin_name: mysql_native_password
+2025-05-11 11:25:57,180 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 11:25:57,183 - ERROR - Database Error: 1049 (42000): Unknown database 'medical_management_system'
+2025-05-11 11:25:57,183 - ERROR - No medicines found for the predicted diseases
+2025-05-11 11:26:12,674 - DEBUG - Script started with arguments: ['python/symptom_checker.py', 'predict', 'runny nose, cough']
+2025-05-11 11:26:12,675 - DEBUG - Predicting disease for symptoms: runny nose, cough
+2025-05-11 11:26:12,675 - DEBUG - Symptom 'runny nose' mapped to diseases: ['Common Cold']
+2025-05-11 11:26:12,675 - DEBUG - Symptom 'cough' mapped to diseases: ['Common Cold']
+2025-05-11 11:26:12,675 - DEBUG - Predicted diseases: ['Common Cold']
+2025-05-11 11:26:12,675 - DEBUG - Fetching medicines for diseases: ['Common Cold']
+2025-05-11 11:26:12,749 - DEBUG - Starting authorization phase
+2025-05-11 11:26:12,749 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 11:26:12,750 - INFO - package: mysql.connector.plugins
+2025-05-11 11:26:12,750 - INFO - plugin_name: mysql_native_password
+2025-05-11 11:26:12,751 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 11:26:12,754 - ERROR - Database Error: 1049 (42000): Unknown database 'medical_management_system'
+2025-05-11 11:26:12,754 - ERROR - No medicines found for the predicted diseases
+2025-05-11 11:38:42,266 - DEBUG - Script started with arguments: ['python/symptom_checker.py', 'predict', 'headache']
+2025-05-11 11:38:42,266 - DEBUG - Predicting disease for symptoms: headache
+2025-05-11 11:38:42,266 - DEBUG - Symptom 'headache' mapped to diseases: ['Headache', 'Fever']
+2025-05-11 11:38:42,266 - DEBUG - Predicted diseases: ['Fever', 'Headache']
+2025-05-11 11:38:42,266 - DEBUG - Fetching medicines for diseases: ['Fever', 'Headache']
+2025-05-11 11:38:42,321 - DEBUG - Starting authorization phase
+2025-05-11 11:38:42,321 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 11:38:42,321 - INFO - package: mysql.connector.plugins
+2025-05-11 11:38:42,321 - INFO - plugin_name: mysql_native_password
+2025-05-11 11:38:42,322 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 11:38:42,323 - DEBUG - mysql_native_password completed succesfully
+2025-05-11 11:38:42,324 - DEBUG - Executing query: 
+            SELECT DISTINCT m.id, m.name, m.price, m.stock
+            FROM medicines m
+            JOIN disease_medicine_mapping dmm ON m.id = dmm.medicine_id
+            WHERE dmm.disease IN (%s,%s)
+         with params: ['Fever', 'Headache']
+2025-05-11 11:38:42,327 - DEBUG - Medicines fetched: [{'id': 25, 'name': 'Paracetamol', 'price': Decimal('10.00'), 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': Decimal('10.00'), 'stock': 100}, {'id': 26, 'name': 'Ibuprofen', 'price': Decimal('15.00'), 'stock': 100}]
+2025-05-11 11:38:42,327 - DEBUG - Returning result: {'diseases': ['Fever', 'Headache'], 'medicines': [{'id': 25, 'name': 'Paracetamol', 'price': Decimal('10.00'), 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': Decimal('10.00'), 'stock': 100}, {'id': 26, 'name': 'Ibuprofen', 'price': Decimal('15.00'), 'stock': 100}]}
+2025-05-11 11:38:42,327 - ERROR - Unhandled exception: Object of type Decimal is not JSON serializable
+2025-05-11 11:38:53,296 - DEBUG - Script started with arguments: ['python/symptom_checker.py', 'predict', 'body pain']
+2025-05-11 11:38:53,297 - DEBUG - Predicting disease for symptoms: body pain
+2025-05-11 11:38:53,297 - DEBUG - Symptom 'body pain' mapped to diseases: ['Body Pain']
+2025-05-11 11:38:53,297 - DEBUG - Predicted diseases: ['Body Pain']
+2025-05-11 11:38:53,297 - DEBUG - Fetching medicines for diseases: ['Body Pain']
+2025-05-11 11:38:53,361 - DEBUG - Starting authorization phase
+2025-05-11 11:38:53,361 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 11:38:53,362 - INFO - package: mysql.connector.plugins
+2025-05-11 11:38:53,362 - INFO - plugin_name: mysql_native_password
+2025-05-11 11:38:53,363 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 11:38:53,363 - DEBUG - mysql_native_password completed succesfully
+2025-05-11 11:38:53,364 - DEBUG - Executing query: 
+            SELECT DISTINCT m.id, m.name, m.price, m.stock
+            FROM medicines m
+            JOIN disease_medicine_mapping dmm ON m.id = dmm.medicine_id
+            WHERE dmm.disease IN (%s)
+         with params: ['Body Pain']
+2025-05-11 11:38:53,366 - DEBUG - Medicines fetched: [{'id': 26, 'name': 'Ibuprofen', 'price': Decimal('15.00'), 'stock': 100}, {'id': 33, 'name': 'Naproxen', 'price': Decimal('18.00'), 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': Decimal('10.00'), 'stock': 100}]
+2025-05-11 11:38:53,366 - DEBUG - Returning result: {'diseases': ['Body Pain'], 'medicines': [{'id': 26, 'name': 'Ibuprofen', 'price': Decimal('15.00'), 'stock': 100}, {'id': 33, 'name': 'Naproxen', 'price': Decimal('18.00'), 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': Decimal('10.00'), 'stock': 100}]}
+2025-05-11 11:38:53,367 - ERROR - Unhandled exception: Object of type Decimal is not JSON serializable
+2025-05-11 11:40:20,104 - DEBUG - Script started with arguments: ['python/symptom_checker.py', 'predict', 'body pain']
+2025-05-11 11:40:20,105 - DEBUG - Predicting disease for symptoms: body pain
+2025-05-11 11:40:20,105 - DEBUG - Symptom 'body pain' mapped to diseases: ['Body Pain']
+2025-05-11 11:40:20,105 - DEBUG - Predicted diseases: ['Body Pain']
+2025-05-11 11:40:20,105 - DEBUG - Fetching medicines for diseases: ['Body Pain']
+2025-05-11 11:40:20,171 - DEBUG - Starting authorization phase
+2025-05-11 11:40:20,171 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 11:40:20,171 - INFO - package: mysql.connector.plugins
+2025-05-11 11:40:20,171 - INFO - plugin_name: mysql_native_password
+2025-05-11 11:40:20,172 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 11:40:20,172 - DEBUG - mysql_native_password completed succesfully
+2025-05-11 11:40:20,173 - DEBUG - Executing query: 
+            SELECT DISTINCT m.id, m.name, m.price, m.stock
+            FROM medicines m
+            JOIN disease_medicine_mapping dmm ON m.id = dmm.medicine_id
+            WHERE dmm.disease IN (%s)
+         with params: ['Body Pain']
+2025-05-11 11:40:20,176 - DEBUG - Medicines fetched: [{'id': 26, 'name': 'Ibuprofen', 'price': 15.0, 'stock': 100}, {'id': 33, 'name': 'Naproxen', 'price': 18.0, 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': 10.0, 'stock': 100}]
+2025-05-11 11:40:20,176 - DEBUG - Returning result: {'diseases': ['Body Pain'], 'medicines': [{'id': 26, 'name': 'Ibuprofen', 'price': 15.0, 'stock': 100}, {'id': 33, 'name': 'Naproxen', 'price': 18.0, 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': 10.0, 'stock': 100}]}
+2025-05-11 11:40:40,503 - DEBUG - Script started with arguments: ['python/symptom_checker.py', 'predict', 'body pain, fever']
+2025-05-11 11:40:40,503 - DEBUG - Predicting disease for symptoms: body pain, fever
+2025-05-11 11:40:40,503 - DEBUG - Symptom 'body pain' mapped to diseases: ['Body Pain']
+2025-05-11 11:40:40,503 - DEBUG - Symptom 'fever' mapped to diseases: ['Fever']
+2025-05-11 11:40:40,504 - DEBUG - Predicted diseases: ['Fever', 'Body Pain']
+2025-05-11 11:40:40,504 - DEBUG - Fetching medicines for diseases: ['Fever', 'Body Pain']
+2025-05-11 11:40:40,564 - DEBUG - Starting authorization phase
+2025-05-11 11:40:40,565 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 11:40:40,565 - INFO - package: mysql.connector.plugins
+2025-05-11 11:40:40,565 - INFO - plugin_name: mysql_native_password
+2025-05-11 11:40:40,566 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 11:40:40,566 - DEBUG - mysql_native_password completed succesfully
+2025-05-11 11:40:40,567 - DEBUG - Executing query: 
+            SELECT DISTINCT m.id, m.name, m.price, m.stock
+            FROM medicines m
+            JOIN disease_medicine_mapping dmm ON m.id = dmm.medicine_id
+            WHERE dmm.disease IN (%s,%s)
+         with params: ['Fever', 'Body Pain']
+2025-05-11 11:40:40,568 - DEBUG - Medicines fetched: [{'id': 25, 'name': 'Paracetamol', 'price': 10.0, 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': 10.0, 'stock': 100}, {'id': 26, 'name': 'Ibuprofen', 'price': 15.0, 'stock': 100}, {'id': 33, 'name': 'Naproxen', 'price': 18.0, 'stock': 100}]
+2025-05-11 11:40:40,569 - DEBUG - Returning result: {'diseases': ['Fever', 'Body Pain'], 'medicines': [{'id': 25, 'name': 'Paracetamol', 'price': 10.0, 'stock': 100}, {'id': 32, 'name': 'Aspirin', 'price': 10.0, 'stock': 100}, {'id': 26, 'name': 'Ibuprofen', 'price': 15.0, 'stock': 100}, {'id': 33, 'name': 'Naproxen', 'price': 18.0, 'stock': 100}]}
+2025-05-11 14:22:24,769 - DEBUG - Script started with arguments: ['python/symptom_checker.py', 'predict', 'runny nose']
+2025-05-11 14:22:24,769 - DEBUG - Predicting disease for symptoms: runny nose
+2025-05-11 14:22:24,769 - DEBUG - Symptom 'runny nose' mapped to diseases: ['Common Cold']
+2025-05-11 14:22:24,769 - DEBUG - Predicted diseases: ['Common Cold']
+2025-05-11 14:22:24,771 - DEBUG - Fetching medicines for diseases: ['Common Cold']
+2025-05-11 14:22:24,843 - DEBUG - Starting authorization phase
+2025-05-11 14:22:24,844 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-11 14:22:24,844 - INFO - package: mysql.connector.plugins
+2025-05-11 14:22:24,844 - INFO - plugin_name: mysql_native_password
+2025-05-11 14:22:24,845 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-11 14:22:24,845 - DEBUG - mysql_native_password completed succesfully
+2025-05-11 14:22:24,846 - DEBUG - Executing query: 
+            SELECT DISTINCT m.id, m.name, m.price, m.stock
+            FROM medicines m
+            JOIN disease_medicine_mapping dmm ON m.id = dmm.medicine_id
+            WHERE dmm.disease IN (%s)
+         with params: ['Common Cold']
+2025-05-11 14:22:24,847 - DEBUG - Medicines fetched: [{'id': 27, 'name': 'Cetirizine', 'price': 8.0, 'stock': 99}, {'id': 28, 'name': 'Loratadine', 'price': 12.0, 'stock': 99}, {'id': 29, 'name': 'Cough Syrup (Dextromethorphan)', 'price': 50.0, 'stock': 95}, {'id': 34, 'name': 'Pseudoephedrine', 'price': 15.0, 'stock': 99}]
+2025-05-11 14:22:24,849 - DEBUG - Returning result: {'diseases': ['Common Cold'], 'medicines': [{'id': 27, 'name': 'Cetirizine', 'price': 8.0, 'stock': 99}, {'id': 28, 'name': 'Loratadine', 'price': 12.0, 'stock': 99}, {'id': 29, 'name': 'Cough Syrup (Dextromethorphan)', 'price': 50.0, 'stock': 95}, {'id': 34, 'name': 'Pseudoephedrine', 'price': 15.0, 'stock': 99}]}
