@@ -19,6 +19,7 @@ This project focuses on simplicity and core functionality, providing an intuitiv
 - **Sales History**: View past sales records.
 - **Symptom Checker**: A tool to check symptoms (functionality depends on implementation).
 - **Dashboard**: Overview of sales and inventory (functionality depends on implementation).
+- **Automatic QR based Medicine Adding(while selling)**: Automatic Scan the QR code which is ID of the Medicine (e.g Medicine ID:1 Name:Sandopa Plus - this will added when QR code comes in front of camera)
 
 **Removed Features** (as per recent updates):
 - Email sending functionality.
