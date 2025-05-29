@@ -33,7 +33,7 @@ if ($sale_id) {
     <title>Medical Management System - Customer Selling</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Modal styles */
+        /* Modal styles (for personal details modal only) */
         .modal {
             display: none;
             position: fixed;
@@ -62,10 +62,6 @@ if ($sale_id) {
             margin: 10px 0;
             box-sizing: border-box;
         }
-        .modal-content .btn-group {
-            display: flex;
-            justify-content: space-between;
-        }
         .modal-content button {
             padding: 8px 16px;
             border: none;
@@ -85,143 +81,351 @@ if ($sale_id) {
         .hard-reset-btn:hover {
             background-color: #c82333;
         }
+        /* Two-column layout */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .left-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        .right-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+        }
+        /* QR code scanner styles */
+        #qrScannerVideo {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #qrScannerCanvas {
+            display: none;
+        }
+        #qrScannerStatus {
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+        /* Ensure sections are responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .right-section {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Navbar -->
-        <nav class="navbar">
-            <div class="logo">
-                <h2>Medical Management System</h2>
-            </div>
-            <button class="menu-toggle">☰</button>
-            <ul class="nav-links">
-                <li><a href="home.php">Home</a></li>
-                <li><a href="index.php">Medicine Management</a></li>
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="customer_selling.php" class="active">Customer Selling</a></li>
-                <li><a href="sales_history.php">Sales History</a></li>
-                <li><a href="symptom_checker.php">Symptom Checker</a></li>
-            </ul>
-        </nav>
+        <!-- Left Section: Form and Cart -->
+        <div class="left-section">
+            <!-- Navbar -->
+            <nav class="navbar">
+                <div class="logo">
+                    <h2>Medical Management System</h2>
+                </div>
+                <button class="menu-toggle">☰</button>
+                <ul class="nav-links">
+                    <li><a href="home.php">Home</a></li>
+                    <li><a href="index.php">Medicine Management</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="customer_selling.php" class="active">Customer Selling</a></li>
+                    <li><a href="sales_history.php">Sales History</a></li>
+                    <li><a href="symptom_checker.php">Symptom Checker</a></li>
+                </ul>
+            </nav>
 
-        <!-- Status Messages -->
-        <?php
-        if ($status == 'success') {
-            echo '<p style="color: #28A745;">Sale processed successfully! Bill generated.</p>';
-        } elseif ($status == 'error') {
-            echo '<p style="color: #dc3545;">An error occurred. Please try again.</p>';
-        } elseif ($status == 'low_stock') {
-            echo '<p style="color: #dc3545;">Insufficient stock for one or more medicines.</p>';
-        }
-        ?>
+            <!-- Status Messages -->
+            <?php
+            if ($status == 'success') {
+                echo '<p style="color: #28A745;">Sale processed successfully! Bill generated.</p>';
+            } elseif ($status == 'error') {
+                echo '<p style="color: #dc3545;">An error occurred. Please try again.</p>';
+            } elseif ($status == 'low_stock') {
+                echo '<p style="color: #dc3545;">Insufficient stock for one or more medicines.</p>';
+            }
+            ?>
 
-        <!-- Selling Form -->
-        <section class="form-section">
-            <h2>Add Medicine to Sale</h2>
-            <div id="sellingForm">
-                <div class="form-group">
-                    <label for="medicine_id">Select Medicine:</label>
-                    <select id="medicine_id" required>
-                        <option value="">Select a medicine</option>
-                        <?php
-                        include 'php/config.php';
-                        $sql = "SELECT id, name, price, stock FROM medicines WHERE stock > 0";
-                        $result = $conn->query($sql);
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='{$row['id']}' data-price='{$row['price']}' data-stock='{$row['stock']}' data-name='{$row['name']}'>{$row['name']} (Stock: {$row['stock']})</option>";
-                        }
-                        $conn->close();
-                        ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="subtotal">Subtotal (₹):</label>
-                    <input type="text" id="subtotal" readonly>
-                </div>
-                <button type="button" onclick="addToCart()">Add</button>
-            </div>
-            <div style="margin-top: 10px;">
-                <button type="button" onclick="resetCart()">Reset Cart</button>
-                <button type="button" class="hard-reset-btn" onclick="hardReset()">Hard Reset</button>
-            </div>
-        </section>
-
-        <!-- Cart Table -->
-        <section class="table-section">
-            <h2>Selected Medicines</h2>
-            <form id="cartForm" action="php/process_sale.php" method="POST">
-                <table id="cartTable">
-                    <thead>
-                        <tr>
-                            <th>Medicine</th>
-                            <th>Price (₹)</th>
-                            <th>Quantity</th>
-                            <th>Subtotal (₹)</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cartTableBody">
-                        <!-- Dynamically populated by JavaScript -->
-                    </tbody>
-                </table>
-                <div class="form-group">
-                    <label for="bill_discount">Bill Discount (%):</label>
-                    <input type="number" id="bill_discount" name="bill_discount" min="0" max="100" value="0" step="0.01" oninput="calculateTotal()">
-                </div>
-                <div class="form-group">
-                    <label for="total_price">Total Price (₹):</label>
-                    <input type="text" id="total_price" name="total_price" readonly>
-                </div>
-                <button type="button" onclick="showPersonalDetailsModal()">Generate Bill</button>
-            </form>
-        </section>
-
-        <!-- Personal Details Modal -->
-        <div id="personalDetailsModal" class="modal">
-            <div class="modal-content">
-                <h2>Enter Customer Details</h2>
-                <form id="personalDetailsForm">
+            <!-- Selling Form -->
+            <section class="form-section">
+                <h2>Add Medicine to Sale</h2>
+                <div id="sellingForm">
                     <div class="form-group">
-                        <label for="customer_name">Customer Name:</label>
-                        <input type="text" id="customer_name" name="customer_name" required>
+                        <label for="medicine_id">Select Medicine:</label>
+                        <select id="medicine_id" required>
+                            <option value="">Select a medicine</option>
+                            <?php
+                            include 'php/config.php';
+                            $sql = "SELECT id, name, price, stock FROM medicines WHERE stock > 0";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['id']}' data-price='{$row['price']}' data-stock='{$row['stock']}' data-name='{$row['name']}'>{$row['name']} (Stock: {$row['stock']})</option>";
+                            }
+                            $conn->close();
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="customer_phone">Customer Phone Number:</label>
-                        <input type="tel" id="customer_phone" name="customer_phone" required>
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subtotal">Subtotal (₹):</label>
+                        <input type="text" id="subtotal" readonly>
+                        
+                    </div>
+                    <button type="button" onclick="addToCart()">Add</button>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button type="button" onclick="resetCart()">Reset Cart</button>
+                    <button type="button" class="hard-reset-btn" onclick="hardReset()">Hard Reset</button>
+                </div>
+            </section>
+
+            <!-- Cart Table -->
+            <section class="table-section">
+                <h2>Selected Medicines</h2>
+                <form id="cartForm" action="php/process_sale.php" method="POST">
+                    <table id="cartTable">
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Price (₹)</th>
+                                <th>Quantity</th>
+                                <th>Subtotal (₹)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cartTableBody">
+                            <!-- Dynamically populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <label for="bill_discount">Bill Discount (%):</label>
+                        <input type="number" id="bill_discount" name="bill_discount" min="0" max="100" value="0" step="0.01" oninput="calculateTotal()">
                     </div>
                     <div class="form-group">
-                        <label for="doctor_name">Doctor Name (Optional):</label>
-                        <input type="text" id="doctor_name" name="doctor_name">
+                        <label for="total_price">Total Price (₹):</label>
+                        <input type="text" id="total_price" name="total_price" readonly>
                     </div>
-                    <button type="button" onclick="submitSale()">Confirm</button>
-                    <button type="button" onclick="closePersonalDetailsModal()">Cancel</button>
+                    <button type="button" onclick="showPersonalDetailsModal()">Generate Bill</button>
                 </form>
-            </div>
+            </section>
+
+            <!-- Bill Preview -->
+            <section class="bill-section" id="billPreview" <?php echo $bill ? '' : 'style="display: none;"'; ?>>
+                <h2>Bill Preview</h2>
+                <div id="billContent"><?php echo $bill; ?></div>
+                <button onclick="printBill(<?php echo json_encode($sale_id); ?>)">Print Bill</button>
+            </section>
         </div>
 
-        <!-- Bill Preview -->
-        <section class="bill-section" id="billPreview" <?php echo $bill ? '' : 'style="display: none;"'; ?>>
-            <h2>Bill Preview</h2>
-            <div id="billContent"><?php echo $bill; ?></div>
-            <button onclick="printBill(<?php echo json_encode($sale_id); ?>)">Print Bill</button>
-        </section>
+        <!-- Right Section: QR Code Scanner -->
+        <div class="right-section">
+            <h3>QR Code Scanner</h3>
+            <video id="qrScannerVideo" autoplay playsinline></video>
+            <canvas id="qrScannerCanvas" style="display: none;"></canvas>
+            <div id="qrScannerStatus">Camera not initialized...</div>
+        </div>
     </div>
 
+    <!-- Personal Details Modal -->
+    <div id="personalDetailsModal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Customer Details</h2>
+            <form id="personalDetailsForm">
+                <div class="form-group">
+                    <label for="customer_name">Customer Name:</label>
+                    <input type="text" id="customer_name" name="customer_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer_phone">Customer Phone Number:</label>
+                    <input type="tel" id="customer_phone" name="customer_phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctor_name">Doctor Name (Optional):</label>
+                    <input type="text" id="doctor_name" name="doctor_name">
+                </div>
+                <button type="button" onclick="submitSale()">Confirm</button>
+                <button type="button" onclick="closePersonalDetailsModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include jsQR for QR code scanning -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script>
         let cart = [];
         let selectedPrice = 0;
         let selectedStock = 0;
         let selectedName = '';
         let saleId = <?php echo json_encode($sale_id); ?>;
+        let scannerActive = false;
+        let video = null;
+        let canvasElement = null;
+        let canvas = null;
+        let statusElement = null;
 
         // Log initial variables for debugging
         console.log('Initial saleId:', saleId);
         console.log('Initial status:', '<?php echo $status; ?>');
+
+        // Initialize QR code scanner on page load
+        function initializeQRScanner() {
+            video = document.getElementById('qrScannerVideo');
+            canvasElement = document.getElementById('qrScannerCanvas');
+            canvas = canvasElement.getContext('2d');
+            statusElement = document.getElementById('qrScannerStatus');
+
+            // Set initial status
+            statusElement.textContent = 'Initializing camera...';
+
+            // Request camera access
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.setAttribute("playsinline", true); // Required for iOS
+                    video.play();
+                    scannerActive = true;
+                    statusElement.textContent = 'Scanning for QR code...';
+                    requestAnimationFrame(tick);
+                })
+                .catch(err => {
+                    console.error('Camera access error:', err);
+                    statusElement.textContent = 'Failed to access camera. Please grant camera permission.';
+                });
+        }
+
+        // Process video frames to detect QR code
+        function tick() {
+            if (!scannerActive) return;
+
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvasElement.height = video.videoHeight;
+                canvasElement.width = video.videoWidth;
+                canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+                const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: "dontInvert"
+                });
+
+                if (code) {
+                    console.log('QR code detected:', code.data);
+                    statusElement.textContent = `QR code detected: ${code.data}`;
+
+                    // Assume QR code contains the medicine ID
+                    const medicineId = parseInt(code.data);
+                    if (isNaN(medicineId)) {
+                        statusElement.textContent = 'Invalid QR code format. Expected a numeric medicine ID.';
+                        setTimeout(() => {
+                            if (scannerActive) {
+                                statusElement.textContent = 'Scanning for QR code...';
+                                requestAnimationFrame(tick);
+                            }
+                        }, 2000);
+                        return;
+                    }
+
+                    // Search in inventory
+                    statusElement.textContent = 'Searching in inventory...';
+
+                    // Simulate a delay for better UX (remove in production if not needed)
+                    setTimeout(() => {
+                        // Fetch medicine details based on the scanned ID
+                        const select = document.getElementById('medicine_id');
+                        const option = Array.from(select.options).find(opt => parseInt(opt.value) === medicineId);
+
+                        if (!option) {
+                            statusElement.textContent = `Medicine not found for QR code: ${code.data}`;
+                            setTimeout(() => {
+                                if (scannerActive) {
+                                    statusElement.textContent = 'Scanning for QR code...';
+                                    requestAnimationFrame(tick);
+                                }
+                            }, 2000);
+                            return;
+                        }
+
+                        selectedPrice = parseFloat(option.getAttribute('data-price')) || 0;
+                        selectedStock = parseInt(option.getAttribute('data-stock')) || 0;
+                        selectedName = option.getAttribute('data-name') || '';
+
+                        statusElement.textContent = `Found medicine: ${selectedName}`;
+
+                        // Set the quantity to 1 by default (user can adjust later in the cart)
+                        const quantity = 1;
+
+                        if (selectedStock <= 0) {
+                            statusElement.textContent = 'Medicine is out of stock!';
+                            setTimeout(() => {
+                                if (scannerActive) {
+                                    statusElement.textContent = 'Scanning for QR code...';
+                                    requestAnimationFrame(tick);
+                                }
+                            }, 2000);
+                            return;
+                        }
+
+                        if (quantity > selectedStock) {
+                            statusElement.textContent = `Quantity exceeds available stock! Available: ${selectedStock}`;
+                            setTimeout(() => {
+                                if (scannerActive) {
+                                    statusElement.textContent = 'Scanning for QR code...';
+                                    requestAnimationFrame(tick);
+                                }
+                            }, 2000);
+                            return;
+                        }
+
+                        const subtotal = selectedPrice * quantity;
+
+                        // Check if medicine is already in cart
+                        const existingItem = cart.find(item => item.medicineId === medicineId.toString());
+                        if (existingItem) {
+                            statusElement.textContent = 'This medicine is already in the cart. Update the quantity in the table.';
+                            setTimeout(() => {
+                                if (scannerActive) {
+                                    statusElement.textContent = 'Scanning for QR code...';
+                                    requestAnimationFrame(tick);
+                                }
+                            }, 2000);
+                            return;
+                        }
+
+                        // Add to cart
+                        cart.push({
+                            medicineId: medicineId.toString(),
+                            name: selectedName,
+                            price: selectedPrice,
+                            quantity,
+                            subtotal,
+                            stock: selectedStock
+                        });
+
+                        updateCartTable();
+                        setTimeout(() => {
+                            if (scannerActive) {
+                                statusElement.textContent = 'Scanning for QR code...';
+                                requestAnimationFrame(tick);
+                            }
+                        }, 1000);
+                    }, 1000); // Simulated delay for searching
+                    return;
+                }
+            }
+            requestAnimationFrame(tick);
+        }
 
         // Hard Reset function to clear all data
         function hardReset() {
@@ -255,6 +459,7 @@ if ($sale_id) {
             })
             .catch(error => {
                 console.error('Error resetting data:', error);
+                alert('Error resetting data: ' + error.message);
             });
         }
 
@@ -277,7 +482,7 @@ if ($sale_id) {
             document.getElementById('subtotal').value = subtotal.toFixed(2);
         }
 
-        // Add medicine to cart table
+        // Add medicine to cart table (manual selection)
         function addToCart() {
             const medicineId = document.getElementById('medicine_id').value;
             const quantity = parseInt(document.getElementById('quantity').value) || 0;
@@ -456,6 +661,9 @@ if ($sale_id) {
         // Event listeners
         document.getElementById('medicine_id').addEventListener('change', updateSubtotal);
         document.getElementById('quantity').addEventListener('input', updateSubtotal);
+
+        // Initialize QR scanner on page load
+        window.addEventListener('load', initializeQRScanner);
 
         console.log('customer_selling.js script loaded');
     </script>
