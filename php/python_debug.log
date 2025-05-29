@@ -1,0 +1,20 @@
+2025-05-29 20:24:05,583 - DEBUG - Script started with arguments: ['../python/symptom_checker.py', 'feedback', 'body pain', '26,33,32', '4']
+2025-05-29 20:24:05,584 - DEBUG - Storing feedback - Symptoms: body pain, Medicine IDs: ['26', '33', '32'], Rating: 4
+2025-05-29 20:24:05,648 - DEBUG - Starting authorization phase
+2025-05-29 20:24:05,648 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-29 20:24:05,648 - INFO - package: mysql.connector.plugins
+2025-05-29 20:24:05,648 - INFO - plugin_name: mysql_native_password
+2025-05-29 20:24:05,649 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-29 20:24:05,650 - DEBUG - mysql_native_password completed succesfully
+2025-05-29 20:24:08,331 - ERROR - Database Error: 2055: Lost connection to MySQL server at 'localhost:3306', system error: Errno 10054: An existing connection was forcibly closed by the remote host
+2025-05-29 20:24:08,331 - ERROR - Failed to store feedback
+2025-05-29 20:35:16,902 - DEBUG - Script started with arguments: ['../python/symptom_checker.py', 'feedback', 'body pain, headache', '25,32,26,33', '4']
+2025-05-29 20:35:16,902 - DEBUG - Storing feedback - Symptoms: body pain, headache, Medicine IDs: ['25', '32', '26', '33'], Rating: 4
+2025-05-29 20:35:16,973 - DEBUG - Starting authorization phase
+2025-05-29 20:35:16,973 - DEBUG - The provided initial strategy is mysql_native_password
+2025-05-29 20:35:16,973 - INFO - package: mysql.connector.plugins
+2025-05-29 20:35:16,973 - INFO - plugin_name: mysql_native_password
+2025-05-29 20:35:16,974 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-05-29 20:35:16,975 - DEBUG - mysql_native_password completed succesfully
+2025-05-29 20:35:16,985 - DEBUG - Feedback stored successfully
+2025-05-29 20:35:16,985 - DEBUG - Feedback success

@@ -72,6 +72,19 @@ if ($sale_id) {
             border-radius: 4px;
             cursor: pointer;
         }
+        /* Style for Hard Reset button */
+        .hard-reset-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .hard-reset-btn:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -132,6 +145,10 @@ if ($sale_id) {
                 </div>
                 <button type="button" onclick="addToCart()">Add</button>
             </div>
+            <div style="margin-top: 10px;">
+                <button type="button" onclick="resetCart()">Reset Cart</button>
+                <button type="button" class="hard-reset-btn" onclick="hardReset()">Hard Reset</button>
+            </div>
         </section>
 
         <!-- Cart Table -->
@@ -161,7 +178,6 @@ if ($sale_id) {
                     <input type="text" id="total_price" name="total_price" readonly>
                 </div>
                 <button type="button" onclick="showPersonalDetailsModal()">Generate Bill</button>
-                <button type="button" onclick="resetCart()">Reset</button>
             </form>
         </section>
 
@@ -206,6 +222,41 @@ if ($sale_id) {
         // Log initial variables for debugging
         console.log('Initial saleId:', saleId);
         console.log('Initial status:', '<?php echo $status; ?>');
+
+        // Hard Reset function to clear all data
+        function hardReset() {
+            if (!confirm('Are you sure you want to perform a hard reset? This will clear all data (medicines, sales, etc.) and cannot be undone.')) {
+                return;
+            }
+
+            fetch('php/reset_all_data.php', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('All data has been cleared successfully.');
+                    // Reset the UI and reload the page
+                    cart = [];
+                    updateCartTable();
+                    document.getElementById('sellingForm').reset();
+                    document.getElementById('subtotal').value = '';
+                    document.getElementById('bill_discount').value = '0';
+                    document.getElementById('billPreview').style.display = 'none';
+                    window.location.reload(); // Reload to reflect the cleared database state
+                } else {
+                    alert('Failed to reset data: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error resetting data:', error);
+            });
+        }
 
         // Update subtotal when medicine or quantity changes
         function updateSubtotal() {
