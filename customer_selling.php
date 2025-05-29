@@ -93,7 +93,7 @@ if ($sale_id) {
             min-width: 300px;
         }
         .right-section {
-            flex: 1;
+            flex: 0;
             min-width: 300px;
             max-width: 400px;
         }
@@ -183,7 +183,6 @@ if ($sale_id) {
                     <div class="form-group">
                         <label for="subtotal">Subtotal (₹):</label>
                         <input type="text" id="subtotal" readonly>
-                        
                     </div>
                     <button type="button" onclick="addToCart()">Add</button>
                 </div>
