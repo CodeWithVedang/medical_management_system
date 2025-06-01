@@ -20,7 +20,7 @@ This project focuses on simplicity and core functionality, providing an intuitiv
 - **Symptom Checker**: A tool to check symptoms (functionality depends on implementation).
 - **Dashboard**: Overview of sales and inventory (functionality depends on implementation).
 - **Automatic QR based Medicine Adding(while selling)**: Automatic Scan the QR code which is ID of the Medicine (e.g Medicine ID:1 Name:Sandopa Plus - this will added when QR code comes in front of camera)
-
+- **User Based Authentication**: Admin can reset the database : normal user can add update delete sell the medicine to consumer
 **Removed Features** (as per recent updates):
 - Email sending functionality.
 - Manual PDF generation and saving.
