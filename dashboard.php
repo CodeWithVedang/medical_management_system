@@ -1,3 +1,16 @@
+
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+include 'php/config.php';
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +20,9 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<style>
+    
+</style>
 <body>
     <div class="container">
         <!-- Navbar -->
@@ -22,7 +38,9 @@
                 <li><a href="customer_selling.php">Customer Selling</a></li>
                 <li><a href="sales_history.php">Sales History</a></li>
                 <li><a href="symptom_checker.php">Symptom Checker</a></li>
-
+                <li class="user-info">
+                <a href="php/logout.php" class="logout-btn">Logout</a>
+            </li>
             </ul>
         </nav>
 

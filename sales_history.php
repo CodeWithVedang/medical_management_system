@@ -32,6 +32,8 @@ $search_performed = isset($_POST['search_submitted']);
                 <li><a href="customer_selling.php">Customer Selling</a></li>
                 <li><a href="sales_history.php" class="active">Sales History</a></li>
                 <li><a href="symptom_checker.php">Symptom Checker</a></li>
+                <li class="user-info">
+                <a href="php/logout.php" class="logout-btn">Logout</a>
 
             </ul>
         </nav>

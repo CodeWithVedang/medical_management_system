@@ -3,7 +3,16 @@ session_start();
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 $sale_id = isset($_SESSION['sale_id']) ? $_SESSION['sale_id'] : null;
 $bill = '';
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
 
+// Role for access control
+$user_role = $_SESSION['role'];
+
+include 'php/config.php';
 // Log session and status for debugging
 error_log("Status: " . ($status ?? 'Not set'));
 error_log("Session sale_id: " . ($sale_id ?? 'Not set'));
@@ -23,6 +32,7 @@ if ($sale_id) {
     // Log bill content for debugging
     error_log("Bill content length: " . strlen($bill));
 }
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -142,6 +152,8 @@ if ($sale_id) {
                     <li><a href="customer_selling.php" class="active">Customer Selling</a></li>
                     <li><a href="sales_history.php">Sales History</a></li>
                     <li><a href="symptom_checker.php">Symptom Checker</a></li>
+                    <li class="user-info">
+                <a href="php/logout.php" class="logout-btn">Logout</a>
                 </ul>
             </nav>
 
@@ -188,7 +200,7 @@ if ($sale_id) {
                 </div>
                 <div style="margin-top: 10px;">
                     <button type="button" onclick="resetCart()">Reset Cart</button>
-                    <button type="button" class="hard-reset-btn" onclick="hardReset()">Hard Reset</button>
+                    <button type="button" class="hard-reset-btn" onclick="checkHardResetAccess('<?php echo $user_role; ?>')">Hard Reset</button>
                 </div>
             </section>
 
@@ -425,7 +437,15 @@ if ($sale_id) {
             }
             requestAnimationFrame(tick);
         }
+        function checkHardResetAccess(role) {
+            if (role == 'Admin') {
+                                hardReset();
 
+            }else{
+                                alert('Access Denied: Only Admin can use the Hard Reset button.');
+
+            }
+        }
         // Hard Reset function to clear all data
         function hardReset() {
             if (!confirm('Are you sure you want to perform a hard reset? This will clear all data (medicines, sales, etc.) and cannot be undone.')) {

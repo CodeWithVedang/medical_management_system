@@ -89,6 +89,8 @@ $available_symptoms = [
                 <li><a href="customer_selling.php">Customer Selling</a></li>
                 <li><a href="sales_history.php">Sales History</a></li>
                 <li><a href="symptom_checker.php" class="active">Symptom Checker</a></li>
+                <li class="user-info">
+                <a href="php/logout.php" class="logout-btn">Logout</a>
             </ul>
         </nav>
 

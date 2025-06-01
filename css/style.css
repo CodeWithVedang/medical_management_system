@@ -44,7 +44,7 @@ h1, h2, h3, h4 {
     display: flex;
     margin: 0;
     padding: 0;
-    margin-right: 20px; /* Space on the right */
+    margin-right: 30px; /* Space on the right */
 }
 
 .nav-links li {
